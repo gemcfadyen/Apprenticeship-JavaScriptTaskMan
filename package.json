@@ -1,0 +1,29 @@
+{
+  "name": "task-man",
+  "version": "1.0.0",
+  "description": "Task Man - To help you with your To-Do's",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-core": "^6.5.2",
+    "babel-preset-es2015": "^6.5.0",
+    "http-server": "^0.8.5",
+    "jasmine-es6" : "0.1.4"
+  },
+  "scripts": {
+    "test": "jasmine",
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "start": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gemcfadyen/Apprenticeship-JavaScriptTaskMan.git"
+  },
+  "author": "Georgina McFadyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gemcfadyen/Apprenticeship-JavaScriptTaskMan/issues"
+  },
+  "homepage": "https://github.com/gemcfadyen/Apprenticeship-JavaScriptTaskMan#readme"
+}
