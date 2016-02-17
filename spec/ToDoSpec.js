@@ -1,6 +1,4 @@
 import * as ToDo from "../js/ToDo";
-import install from 'jasmine-es6';
-install();
 
 describe("ToDo", function() {
 

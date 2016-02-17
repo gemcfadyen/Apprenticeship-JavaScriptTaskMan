@@ -1,7 +1,5 @@
-import * as TaskList from "../js/CreateNewListOnClick";
+import * as TaskList from "../js/TaskList";
 import * as ToDo from "../js/ToDo";
-import install from 'jasmine-es6';
-install();
 
 describe("Task List", function() {
 
