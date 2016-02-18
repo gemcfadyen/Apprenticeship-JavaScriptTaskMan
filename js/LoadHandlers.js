@@ -1,7 +1,7 @@
 import * as CreateHandlers from "../js/CreateTaskListClickHandler";
-//install();
+import * as ToDoPresenter from "../js/ToDoPresenter";
 
 $( document ).ready(function() {
   console.log( "ready!" );
-  new CreateHandlers.CreateTaskListClickHandler();
+  new CreateHandlers.CreateTaskListClickHandler(new ToDoPresenter.ToDoPresenter());
 });

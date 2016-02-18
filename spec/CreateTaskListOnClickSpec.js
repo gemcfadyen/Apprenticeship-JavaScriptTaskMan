@@ -8,25 +8,21 @@ describe("Task List Create Button", function() {
   require('jasmine-jquery');
   let TaskList = require("../js/TaskList");
   let CreateTaskList = require("../js/CreateTaskListClickHandler");
+  let ToDoPresenter = require("../js/ToDoPresenter");
 
-  //import jsdom from 'jsdom';
-  //let doc = jsdom.jsdom();
-  //global.window = doc.defaultView;
-  //global.document = window.document;
-  //global.$ = require('jquery')(global.window);
-  //import 'jasmine-jquery';
-  //import * as TaskList from "../js/TaskList";
-  //import * as CreateTaskList from "../js/CreateTaskListClickHandler";
-
-  it("creates a new task list", function() {
-    setFixtures('<div id="taskListButton"></div>');
-    spyOn($('#tagToReplace'), 'replaceWith');
-
-    let clickHandler = new CreateTaskList.CreateTaskListClickHandler();
-
-    global.$('#taskListButton').click();
-    //updatedElement = document.getElementsByTagName("p");
-    //expect(updatedElement[0].innerHTML).toEqual("updated");
+  beforeEach(function() {
+    setFixtures('<button id="taskListButton">Garden</button><p id="todos">oldContent</p>');
   });
 
+  it("creates a new task list", function() {
+    let toDoPresenter = new ToDoPresenter.ToDoPresenter();
+    spyOn(toDoPresenter, "paint").and.returnValue("Updated");
+
+    let clickHandler = new CreateTaskList.CreateTaskListClickHandler(toDoPresenter);
+
+    global.$('#taskListButton').click();
+
+    expect(global.document.getElementById('todos').innerHTML).toEqual("oldContentUpdated");
+    expect(toDoPresenter.paint).toHaveBeenCalled();
+  });
 });

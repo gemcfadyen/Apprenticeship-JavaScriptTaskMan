@@ -50,13 +50,15 @@
 	
 	var CreateHandlers = _interopRequireWildcard(_CreateTaskListClickHandler);
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	var _ToDoPresenter = __webpack_require__(5);
 	
-	//install();
+	var ToDoPresenter = _interopRequireWildcard(_ToDoPresenter);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	$(document).ready(function () {
 	  console.log("ready!");
-	  new CreateHandlers.CreateTaskListClickHandler();
+	  new CreateHandlers.CreateTaskListClickHandler(new ToDoPresenter.ToDoPresenter());
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -1674,7 +1676,62 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.CreateTaskListClickHandler = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _TaskList = __webpack_require__(4);
+	
+	var TaskList = _interopRequireWildcard(_TaskList);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var CreateTaskListClickHandler = exports.CreateTaskListClickHandler = function () {
+	  function CreateTaskListClickHandler(painter) {
+	    var _this = this;
+	
+	    _classCallCheck(this, CreateTaskListClickHandler);
+	
+	    console.log("in constructor " + painter);
+	    this.todoPresenter = painter;
+	    console.log("presenter is " + this.todoPresenter);
+	
+	    this.taskListButton = document.getElementById('taskListButton');
+	    this.taskName = this.taskListButton.innerHTML;
+	    this.taskListButton.addEventListener("click", function (e) {
+	      _this.onClick(e);e.preventDefault();
+	    });
+	  }
+	
+	  _createClass(CreateTaskListClickHandler, [{
+	    key: "onClick",
+	    value: function onClick(evt) {
+	      console.log("OnClick event: taskName is " + this.taskName);
+	      var taskList = new TaskList.TaskList(this.taskName);
+	      var newContent = this.todoPresenter.paint(taskList);
+	
+	      //document.getElementById('todos').appendChild(document.createTextNode("bar"));
+	
+	      $('#todos').append(newContent);
+	    }
+	  }]);
+	
+	  return CreateTaskListClickHandler;
+	}();
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -1684,29 +1741,69 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var CreateTaskListClickHandler = exports.CreateTaskListClickHandler = function () {
-	  function CreateTaskListClickHandler() {
-	    _classCallCheck(this, CreateTaskListClickHandler);
+	var TaskList = exports.TaskList = function () {
+	  function TaskList(value) {
+	    _classCallCheck(this, TaskList);
 	
-	    this.taskListButton = document.getElementById('taskListButton');
-	    this.taskListButton.addEventListener('click', function (e) {
-	      console.log('Hiya');e.preventDefault();
-	    });
-	    //this.taskListButton = $('#taskListButton');
-	    //this.taskListButton.click(function() {console.log('Hiya'); return false;});
+	    this.listName = value;
+	    this.todoTasks = [];
 	  }
 	
-	  _createClass(CreateTaskListClickHandler, [{
-	    key: 'onClick',
-	    value: function onClick(evt) {
-	      alert("New button clicked!");
-	      $('p').replaceWith("updated");
+	  _createClass(TaskList, [{
+	    key: "add",
+	    value: function add(todo) {
+	      this.todoTasks.push(todo);
+	    }
+	  }, {
+	    key: "name",
+	    get: function get() {
+	      return this.listName;
+	    },
+	    set: function set(value) {
+	      this.listName = value;
+	    }
+	  }, {
+	    key: "todos",
+	    get: function get() {
+	      return this.todoTasks;
+	    },
+	    set: function set(value) {
+	      this.todoTasks = value;
 	    }
 	  }]);
 	
-	  return CreateTaskListClickHandler;
+	  return TaskList;
 	}();
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ToDoPresenter = exports.ToDoPresenter = function () {
+	  function ToDoPresenter() {
+	    _classCallCheck(this, ToDoPresenter);
+	  }
+	
+	  _createClass(ToDoPresenter, [{
+	    key: "paint",
+	    value: function paint(todos) {
+	      console.log("inside todo presenter");
+	      return "Updated";
+	    }
+	  }]);
+	
+	  return ToDoPresenter;
+	}();
 
 /***/ }
 /******/ ]);

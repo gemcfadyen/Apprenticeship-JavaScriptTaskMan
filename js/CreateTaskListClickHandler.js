@@ -1,13 +1,23 @@
+import * as TaskList from "../js/TaskList";
+
 export class CreateTaskListClickHandler {
-  constructor() {
+  constructor(painter) {
+    console.log("in constructor "  + painter);
+    this.todoPresenter = painter;
+    console.log("presenter is " + this.todoPresenter);
+
     this.taskListButton = document.getElementById('taskListButton');
-    this.taskListButton.addEventListener('click', function(e) {console.log('Hiya'); e.preventDefault();});
-    //this.taskListButton = $('#taskListButton');
-    //this.taskListButton.click(function() {console.log('Hiya'); return false;});
+    this.taskName = this.taskListButton.innerHTML;
+    this.taskListButton.addEventListener("click", (e) => { this.onClick(e); e.preventDefault();});
   }
 
   onClick(evt) {
-    alert("New button clicked!");
-    $('p').replaceWith("updated");
+    console.log("OnClick event: taskName is " + this.taskName);
+    let taskList = new TaskList.TaskList(this.taskName);
+    let newContent = this.todoPresenter.paint(taskList);
+
+    //document.getElementById('todos').appendChild(document.createTextNode("bar"));
+
+     $('#todos').append(newContent);
   }
 }
