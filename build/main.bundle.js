@@ -1702,9 +1702,7 @@
 	    console.log("in constructor " + painter);
 	    this.listPresenter = painter;
 	    console.log("presenter is " + this.listPresenter);
-	
 	    this.taskListButton = document.getElementById('taskListButton');
-	    this.taskName = this.taskListButton.innerHTML;
 	    this.taskListButton.addEventListener("click", function (e) {
 	      _this.onClick(e);e.preventDefault();
 	    });
@@ -1713,8 +1711,9 @@
 	  _createClass(CreateTaskListClickHandler, [{
 	    key: "onClick",
 	    value: function onClick(evt) {
-	      console.log("OnClick event: taskName is " + this.taskName);
-	      var taskList = new TaskList.TaskList(this.taskName);
+	      var taskListName = document.getElementById('taskListBox');
+	      console.log("List name: " + taskListName.value);
+	      var taskList = new TaskList.TaskList(taskListName.value);
 	      var newContent = this.listPresenter.paint(taskList);
 	
 	      //document.getElementById('todos').appendChild(document.createTextNode("bar"));
@@ -1777,9 +1776,9 @@
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function($) {"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -1797,13 +1796,17 @@
 	  _createClass(ListPresenter, [{
 	    key: "paint",
 	    value: function paint(list) {
-	      console.log("inside list presenter");
-	      return "Updated";
+	      console.log("inside list presenter " + list.name);
+	
+	      var htmlForTitle = $("<h2></h2>").text(list.name);
+	      console.log("Html for title is: " + $(htmlForTitle).html());
+	      return htmlForTitle;
 	    }
 	  }]);
 	
 	  return ListPresenter;
 	}();
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }
 /******/ ]);

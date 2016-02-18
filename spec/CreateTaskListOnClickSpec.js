@@ -11,7 +11,7 @@ describe("Task List Create Button", function() {
   let ListPresenter = require("../js/ListPresenter");
 
   beforeEach(function() {
-    setFixtures('<button id="taskListButton">Garden</button><p id="todos">oldContent</p>');
+    setFixtures('<input id="taskListBox">Garden</input><button id="taskListButton"></button><p id="todos">oldContent</p>');
   });
 
   it("creates a new task list", function() {
