@@ -50,15 +50,15 @@
 	
 	var CreateHandlers = _interopRequireWildcard(_CreateTaskListClickHandler);
 	
-	var _ToDoPresenter = __webpack_require__(5);
+	var _ListPresenter = __webpack_require__(5);
 	
-	var ToDoPresenter = _interopRequireWildcard(_ToDoPresenter);
+	var ListPresenter = _interopRequireWildcard(_ListPresenter);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	$(document).ready(function () {
 	  console.log("ready!");
-	  new CreateHandlers.CreateTaskListClickHandler(new ToDoPresenter.ToDoPresenter());
+	  new CreateHandlers.CreateTaskListClickHandler(new ListPresenter.ListPresenter());
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -1700,8 +1700,8 @@
 	    _classCallCheck(this, CreateTaskListClickHandler);
 	
 	    console.log("in constructor " + painter);
-	    this.todoPresenter = painter;
-	    console.log("presenter is " + this.todoPresenter);
+	    this.listPresenter = painter;
+	    console.log("presenter is " + this.listPresenter);
 	
 	    this.taskListButton = document.getElementById('taskListButton');
 	    this.taskName = this.taskListButton.innerHTML;
@@ -1715,7 +1715,7 @@
 	    value: function onClick(evt) {
 	      console.log("OnClick event: taskName is " + this.taskName);
 	      var taskList = new TaskList.TaskList(this.taskName);
-	      var newContent = this.todoPresenter.paint(taskList);
+	      var newContent = this.listPresenter.paint(taskList);
 	
 	      //document.getElementById('todos').appendChild(document.createTextNode("bar"));
 	
@@ -1789,20 +1789,20 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var ToDoPresenter = exports.ToDoPresenter = function () {
-	  function ToDoPresenter() {
-	    _classCallCheck(this, ToDoPresenter);
+	var ListPresenter = exports.ListPresenter = function () {
+	  function ListPresenter() {
+	    _classCallCheck(this, ListPresenter);
 	  }
 	
-	  _createClass(ToDoPresenter, [{
+	  _createClass(ListPresenter, [{
 	    key: "paint",
-	    value: function paint(todos) {
-	      console.log("inside todo presenter");
+	    value: function paint(list) {
+	      console.log("inside list presenter");
 	      return "Updated";
 	    }
 	  }]);
 	
-	  return ToDoPresenter;
+	  return ListPresenter;
 	}();
 
 /***/ }

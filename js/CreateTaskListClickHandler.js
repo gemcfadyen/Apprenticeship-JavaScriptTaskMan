@@ -3,8 +3,8 @@ import * as TaskList from "../js/TaskList";
 export class CreateTaskListClickHandler {
   constructor(painter) {
     console.log("in constructor "  + painter);
-    this.todoPresenter = painter;
-    console.log("presenter is " + this.todoPresenter);
+    this.listPresenter = painter;
+    console.log("presenter is " + this.listPresenter);
 
     this.taskListButton = document.getElementById('taskListButton');
     this.taskName = this.taskListButton.innerHTML;
@@ -14,7 +14,7 @@ export class CreateTaskListClickHandler {
   onClick(evt) {
     console.log("OnClick event: taskName is " + this.taskName);
     let taskList = new TaskList.TaskList(this.taskName);
-    let newContent = this.todoPresenter.paint(taskList);
+    let newContent = this.listPresenter.paint(taskList);
 
     //document.getElementById('todos').appendChild(document.createTextNode("bar"));
 
