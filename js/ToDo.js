@@ -1,7 +1,8 @@
 export class ToDo {
 
-  constructor(value) {
+  constructor(value, numberFountain) {
     this.taskDescription = value;
+    this.id = numberFountain.generate();
   }
 
   get description() {
@@ -10,5 +11,9 @@ export class ToDo {
 
   set description(value) {
     this.taskDescription = value;
+  }
+
+  get uniqueId() {
+    return this.id;
   }
 }

@@ -10,7 +10,7 @@ export class ListPresenter {
     deleteButtonElement.setAttribute('id', 'bar');
     let contentsOfdeleteButtonElement = document.createTextNode('Delete');
     deleteButtonElement.appendChild(contentsOfdeleteButtonElement);
-
+console.log("Unique id of to do: " + todo.uniqueId);
     document.getElementById('todos').appendChild(todoElement);
     document.getElementById('todos').appendChild(deleteButtonElement);
   }

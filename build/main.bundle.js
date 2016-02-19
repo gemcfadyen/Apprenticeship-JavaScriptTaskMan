@@ -54,11 +54,19 @@
 	
 	var ListPresenter = _interopRequireWildcard(_ListPresenter);
 	
+	var _IdGenerator = __webpack_require__(6);
+	
+	var IdGenerator = _interopRequireWildcard(_IdGenerator);
+	
+	var _Fountain = __webpack_require__(7);
+	
+	var Fountain = _interopRequireWildcard(_Fountain);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	$(document).ready(function () {
 	  console.log("ready!");
-	  new CreateHandlers.CreateTaskListClickHandler(new ListPresenter.ListPresenter());
+	  new CreateHandlers.CreateTaskListClickHandler(new ListPresenter.ListPresenter(), new IdGenerator.IdGenerator(1, 100, new Fountain.Fountain()));
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -1694,13 +1702,13 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var CreateTaskListClickHandler = exports.CreateTaskListClickHandler = function () {
-	  function CreateTaskListClickHandler(painter) {
+	  function CreateTaskListClickHandler(painter, idGenerator) {
 	    var _this = this;
 	
 	    _classCallCheck(this, CreateTaskListClickHandler);
 	
 	    this.listPresenter = painter;
-	    console.log("presenter is " + this.listPresenter);
+	    this.idGenerator = idGenerator;
 	    this.taskListButton = document.getElementById('taskListButton');
 	    this.taskListButton.addEventListener("click", function (e) {
 	      _this.onClick(e);e.preventDefault();
@@ -1712,7 +1720,7 @@
 	    value: function onClick(evt) {
 	      var taskListName = document.getElementById('taskListBox');
 	      console.log("todo entered: " + taskListName.value);
-	      var taskList = new ToDo.ToDo(taskListName.value);
+	      var taskList = new ToDo.ToDo(taskListName.value, this.idGenerator);
 	      this.listPresenter.paint(taskList);
 	    }
 	  }]);
@@ -1735,10 +1743,11 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var ToDo = exports.ToDo = function () {
-	  function ToDo(value) {
+	  function ToDo(value, numberFountain) {
 	    _classCallCheck(this, ToDo);
 	
 	    this.taskDescription = value;
+	    this.id = numberFountain.generate();
 	  }
 	
 	  _createClass(ToDo, [{
@@ -1749,6 +1758,11 @@
 	    set: function set(value) {
 	      this.taskDescription = value;
 	    }
+	  }, {
+	    key: "uniqueId",
+	    get: function get() {
+	      return this.id;
+	    }
 	  }]);
 	
 	  return ToDo;
@@ -1758,7 +1772,7 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -1774,43 +1788,86 @@
 	  }
 	
 	  _createClass(ListPresenter, [{
-	    key: "paint",
+	    key: 'paint',
 	    value: function paint(todo) {
-	      console.log("inside list presenter " + todo.description);
+	      var todoElement = document.createElement('p');
+	      todoElement.setAttribute('id', 'foo');
+	      var contentsOftodoElement = document.createTextNode(todo.description);
+	      todoElement.appendChild(contentsOftodoElement);
 	
-	      //let htmlForTitle = $("<h2 id='foo'>" + list.name + "</h2>");
-	      //let htmlForTitle = $('<h2></h2>').text(list.name);
-	      //$(htmlForTitle).attr('id', list.name);
-	      //console.log("Html for title is: " + htmlForTitle.html());
-	
-	      var htmlForTextBox = "<p id='foo'>" + todo.description + "</p>";
-	      //let htmlForTextBox = $("<textarea></textarea>");
-	      //$(htmlForTextBox).attr('id', 'todoBoxFor'+list.name);
-	
-	      var htmlForDeleteToDoButton = "<button id='bar'>Delete</button>";
-	      //let htmlForAddToDoButton =$("<button></button>").text("Add");
-	      //$(htmlForAddToDoButton).attr('id', 'todoAddButton'+ list.name);
-	
-	      //console.log("to do's : " + $('#todos').outerHTML);
-	      //return $('#todos').append(htmlForTextBox).append(htmlForAddToDoButton);
-	
-	      var testingElement = document.createElement('p');
-	      testingElement.setAttribute('id', 'foo');
-	      var contentsOfTestingElement = document.createTextNode(todo.description);
-	      testingElement.appendChild(contentsOfTestingElement);
-	
-	      var testingButton = document.createElement('button');
-	      testingButton.setAttribute('id', 'bar');
-	      var contentsOfTestingButton = document.createTextNode('Delete');
-	      testingButton.appendChild(contentsOfTestingButton);
-	
-	      document.getElementById('todos').appendChild(testingElement);
-	      document.getElementById('todos').appendChild(testingButton);
-	      //$('#todos').append(htmlForTextBox).append(htmlForDeleteToDoButton);
+	      var deleteButtonElement = document.createElement('button');
+	      deleteButtonElement.setAttribute('id', 'bar');
+	      var contentsOfdeleteButtonElement = document.createTextNode('Delete');
+	      deleteButtonElement.appendChild(contentsOfdeleteButtonElement);
+	      console.log("Unique id of to do: " + todo.uniqueId);
+	      document.getElementById('todos').appendChild(todoElement);
+	      document.getElementById('todos').appendChild(deleteButtonElement);
 	    }
 	  }]);
 	
 	  return ListPresenter;
+	}();
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var IdGenerator = exports.IdGenerator = function () {
+	  function IdGenerator(min, max, fountain) {
+	    _classCallCheck(this, IdGenerator);
+	
+	    this.minimum = min;
+	    this.maximum = max;
+	    this.fountain = fountain;
+	  }
+	
+	  _createClass(IdGenerator, [{
+	    key: "generate",
+	    value: function generate() {
+	      return this.fountain.generate() * (this.maximum - this.minimum) + this.minimum;
+	    }
+	  }]);
+	
+	  return IdGenerator;
+	}();
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Fountain = exports.Fountain = function () {
+	  function Fountain() {
+	    _classCallCheck(this, Fountain);
+	  }
+	
+	  _createClass(Fountain, [{
+	    key: "generate",
+	    value: function generate() {
+	      return Math.random();
+	    }
+	  }]);
+	
+	  return Fountain;
 	}();
 
 /***/ }
