@@ -61,7 +61,6 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	$(document).ready(function () {
-	  console.log("ready!");
 	  new CreateHandlers.CreateTaskListClickHandler(new ListPresenter.ListPresenter(), new IdGenerator.IdGenerator());
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
@@ -1715,7 +1714,6 @@
 	    key: "onClick",
 	    value: function onClick(evt) {
 	      var taskListName = document.getElementById('taskListBox');
-	      console.log("todo entered: " + taskListName.value);
 	      var taskList = new ToDo.ToDo(taskListName.value, this.idGenerator);
 	      this.listPresenter.paint(taskList);
 	    }
@@ -1739,11 +1737,11 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var ToDo = exports.ToDo = function () {
-	  function ToDo(value, numberFountain) {
+	  function ToDo(value, idGenerator) {
 	    _classCallCheck(this, ToDo);
 	
 	    this.taskDescription = value;
-	    this.id = numberFountain.generate();
+	    this.id = idGenerator.generate();
 	  }
 	
 	  _createClass(ToDo, [{
@@ -1810,15 +1808,38 @@
 	  }, {
 	    key: 'paint',
 	    value: function paint(todo) {
-	      var _this = this;
+	      var todoElement = this._createToDoTag(todo);
+	      var deleteButtonElement = this._createDeleteButton(todo);
 	
+	      document.getElementById(this.rootTag().tagName).appendChild(todoElement);
+	      document.getElementById(this.rootTag().tagName).appendChild(deleteButtonElement);
+	    }
+	  }, {
+	    key: 'remove',
+	    value: function remove(id) {
+	      var root = document.getElementById(this.rootTag().tagName);
+	      var taskToRemove = document.getElementById(this._todoTagId(id));
+	      var buttonToRemove = document.getElementById(this._deleteButtonTagId(id));
+	
+	      root.removeChild(taskToRemove);
+	      root.removeChild(buttonToRemove);
+	    }
+	  }, {
+	    key: '_createToDoTag',
+	    value: function _createToDoTag(todo) {
 	      var todoElement = document.createElement(this.todoTag().tagName);
 	      todoElement.setAttribute(this.todoTag().id, this._todoTagId(todo.uniqueId));
+	
 	      var contentsOftodoElement = document.createTextNode(todo.description);
 	      todoElement.appendChild(contentsOftodoElement);
+	      return todoElement;
+	    }
+	  }, {
+	    key: '_createDeleteButton',
+	    value: function _createDeleteButton(todo) {
+	      var _this = this;
 	
 	      var deleteButtonElement = document.createElement(this.deleteButton().tagName);
-	      console.log("DELETE Button id: " + todo.uniqueId);
 	      deleteButtonElement.setAttribute(this.deleteButton().id, this._deleteButtonTagId(todo.uniqueId));
 	      deleteButtonElement.addEventListener("click", function (e) {
 	        _this.remove(todo.uniqueId);e.preventDefault();
@@ -1827,19 +1848,7 @@
 	      var contentsOfdeleteButtonElement = document.createTextNode(this.deleteButton().text);
 	      deleteButtonElement.appendChild(contentsOfdeleteButtonElement);
 	
-	      document.getElementById(this.rootTag().tagName).appendChild(todoElement);
-	      document.getElementById(this.rootTag().tagName).appendChild(deleteButtonElement);
-	    }
-	  }, {
-	    key: 'remove',
-	    value: function remove(id) {
-	      console.log("the remove id is: " + id);
-	
-	      var root = document.getElementById(this.rootTag().tagName);
-	      var taskToRemove = document.getElementById(this._todoTagId(id));
-	      var buttonToRemove = document.getElementById(this._deleteButtonTagId(id));
-	      root.removeChild(taskToRemove);
-	      root.removeChild(buttonToRemove);
+	      return deleteButtonElement;
 	    }
 	  }, {
 	    key: '_todoTagId',

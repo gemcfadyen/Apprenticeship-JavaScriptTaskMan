@@ -10,8 +10,7 @@ describe("IdGenerator", function() {
     expect(uniqueId).toEqual(1);
   });
 
-  it("increments", function() {
-
+  it("increments as it generates", function() {
     let idGenerator = new IdGenerator.IdGenerator();
     idGenerator.generate();
     let uniqueId = idGenerator.generate();

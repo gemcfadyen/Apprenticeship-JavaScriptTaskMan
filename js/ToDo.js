@@ -1,8 +1,8 @@
 export class ToDo {
 
-  constructor(value, numberFountain) {
+  constructor(value, idGenerator) {
     this.taskDescription = value;
-    this.id = numberFountain.generate();
+    this.id = idGenerator.generate();
   }
 
   get description() {
