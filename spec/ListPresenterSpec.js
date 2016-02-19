@@ -10,7 +10,7 @@ describe("ListPresenter", function() {
   let FakeFountain = require("./FakeFountain");
 
   beforeEach(function() {
-    setFixtures('<div id=\'todos\'></div>');
+    setFixtures('<div id=\'todos\'><p id=7.0>Cut Hair</p><button id=7.1>Delete</button></div>');
   });
 
   it("Displays a to do item", function() {
@@ -24,7 +24,15 @@ describe("ListPresenter", function() {
     let presenter = new ListPresenter.ListPresenter();
     presenter.paint(new ToDo.ToDo("Paint the Shed", new IdGenerator.IdGenerator(1, 3, new FakeFountain.FakeFountain(2))));
 
-
     expect(global.document.getElementById("5.1").innerHTML).toBe("Delete");
+  });
+
+  xit("Calls remove when delete button is clicked", function() {
+    let presenter = new ListPresenter.ListPresenter();
+
+    presenter.remove("7");
+
+    expect(global.document.getElementById("7.0")).toEqual(null);
+    expect(global.document.getElementById("7.1")).toEqual(null);
   });
 });
