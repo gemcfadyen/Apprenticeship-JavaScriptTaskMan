@@ -1676,7 +1676,7 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {"use strict";
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -1685,9 +1685,9 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _TaskList = __webpack_require__(4);
+	var _ToDo = __webpack_require__(4);
 	
-	var TaskList = _interopRequireWildcard(_TaskList);
+	var ToDo = _interopRequireWildcard(_ToDo);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -1699,7 +1699,6 @@
 	
 	    _classCallCheck(this, CreateTaskListClickHandler);
 	
-	    console.log("in constructor " + painter);
 	    this.listPresenter = painter;
 	    console.log("presenter is " + this.listPresenter);
 	    this.taskListButton = document.getElementById('taskListButton');
@@ -1712,19 +1711,14 @@
 	    key: "onClick",
 	    value: function onClick(evt) {
 	      var taskListName = document.getElementById('taskListBox');
-	      console.log("List name: " + taskListName.value);
-	      var taskList = new TaskList.TaskList(taskListName.value);
-	      var newContent = this.listPresenter.paint(taskList);
-	
-	      //document.getElementById('todos').appendChild(document.createTextNode("bar"));
-	
-	      $('#todos').append(newContent);
+	      console.log("todo entered: " + taskListName.value);
+	      var taskList = new ToDo.ToDo(taskListName.value);
+	      this.listPresenter.paint(taskList);
 	    }
 	  }]);
 	
 	  return CreateTaskListClickHandler;
 	}();
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 /* 4 */
@@ -1740,45 +1734,31 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var TaskList = exports.TaskList = function () {
-	  function TaskList(value) {
-	    _classCallCheck(this, TaskList);
+	var ToDo = exports.ToDo = function () {
+	  function ToDo(value) {
+	    _classCallCheck(this, ToDo);
 	
-	    this.listName = value;
-	    this.todoTasks = [];
+	    this.taskDescription = value;
 	  }
 	
-	  _createClass(TaskList, [{
-	    key: "add",
-	    value: function add(todo) {
-	      this.todoTasks.push(todo);
-	    }
-	  }, {
-	    key: "name",
+	  _createClass(ToDo, [{
+	    key: "description",
 	    get: function get() {
-	      return this.listName;
+	      return this.taskDescription;
 	    },
 	    set: function set(value) {
-	      this.listName = value;
-	    }
-	  }, {
-	    key: "todos",
-	    get: function get() {
-	      return this.todoTasks;
-	    },
-	    set: function set(value) {
-	      this.todoTasks = value;
+	      this.taskDescription = value;
 	    }
 	  }]);
 	
-	  return TaskList;
+	  return ToDo;
 	}();
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function($) {"use strict";
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -1795,18 +1775,43 @@
 	
 	  _createClass(ListPresenter, [{
 	    key: "paint",
-	    value: function paint(list) {
-	      console.log("inside list presenter " + list.name);
+	    value: function paint(todo) {
+	      console.log("inside list presenter " + todo.description);
 	
-	      var htmlForTitle = $("<h2></h2>").text(list.name);
-	      console.log("Html for title is: " + $(htmlForTitle).html());
-	      return htmlForTitle;
+	      //let htmlForTitle = $("<h2 id='foo'>" + list.name + "</h2>");
+	      //let htmlForTitle = $('<h2></h2>').text(list.name);
+	      //$(htmlForTitle).attr('id', list.name);
+	      //console.log("Html for title is: " + htmlForTitle.html());
+	
+	      var htmlForTextBox = "<p id='foo'>" + todo.description + "</p>";
+	      //let htmlForTextBox = $("<textarea></textarea>");
+	      //$(htmlForTextBox).attr('id', 'todoBoxFor'+list.name);
+	
+	      var htmlForDeleteToDoButton = "<button id='bar'>Delete</button>";
+	      //let htmlForAddToDoButton =$("<button></button>").text("Add");
+	      //$(htmlForAddToDoButton).attr('id', 'todoAddButton'+ list.name);
+	
+	      //console.log("to do's : " + $('#todos').outerHTML);
+	      //return $('#todos').append(htmlForTextBox).append(htmlForAddToDoButton);
+	
+	      var testingElement = document.createElement('p');
+	      testingElement.setAttribute('id', 'foo');
+	      var contentsOfTestingElement = document.createTextNode(todo.description);
+	      testingElement.appendChild(contentsOfTestingElement);
+	
+	      var testingButton = document.createElement('button');
+	      testingButton.setAttribute('id', 'bar');
+	      var contentsOfTestingButton = document.createTextNode('Delete');
+	      testingButton.appendChild(contentsOfTestingButton);
+	
+	      document.getElementById('todos').appendChild(testingElement);
+	      document.getElementById('todos').appendChild(testingButton);
+	      //$('#todos').append(htmlForTextBox).append(htmlForDeleteToDoButton);
 	    }
 	  }]);
 	
 	  return ListPresenter;
 	}();
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }
 /******/ ]);

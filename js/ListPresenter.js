@@ -1,10 +1,17 @@
 export class ListPresenter {
 
-  paint(list) {
-    console.log("inside list presenter " + list.name);
+  paint(todo) {
+    let todoElement = document.createElement('p');
+    todoElement.setAttribute('id', 'foo');
+    let contentsOftodoElement = document.createTextNode(todo.description);
+    todoElement.appendChild(contentsOftodoElement);
 
-    let htmlForTitle = $("<h2></h2>").text(list.name);
-    console.log("Html for title is: " + $(htmlForTitle).html());
-    return htmlForTitle;
+    let deleteButtonElement = document.createElement('button');
+    deleteButtonElement.setAttribute('id', 'bar');
+    let contentsOfdeleteButtonElement = document.createTextNode('Delete');
+    deleteButtonElement.appendChild(contentsOfdeleteButtonElement);
+
+    document.getElementById('todos').appendChild(todoElement);
+    document.getElementById('todos').appendChild(deleteButtonElement);
   }
 }

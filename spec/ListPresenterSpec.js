@@ -1,25 +1,27 @@
-import * as ListPresenter from "../js/ListPresenter";
-import * as TaskList from "../js/TaskList";
-
 describe("ListPresenter", function() {
-//  let jsdom = require('jsdom').jsdom;
-//  let doc = jsdom();
-//  global.window = doc.defaultView;
-//  global.document = window.document;
-//
-//  global.$ = require('jquery');
-//  require('jasmine-jquery');
-//  let TaskList = require("../js/TaskList");
-//  let CreateTaskList = require("../js/CreateTaskListClickHandler");
-//  let ListPresenter = require("../js/ListPresenter");
+  let jsdom = require('jsdom').jsdom;
+  let doc = jsdom();
+  global.window = doc.defaultView;
+  global.document = window.document;
 
-  it("Publishes name of list", function() {
-    let taskList = new TaskList.TaskList("Garden");
-    let presenter = new ListPresenter.ListPresenter();
+  let ListPresenter = require("../js/ListPresenter");
 
-    let htmlForTaskList = presenter.paint(taskList);
-
-    expect($(htmlForTaskList).html()).toEqual("Garden");
+  let ToDo = require("../js/ToDo");
+  beforeEach(function() {
+    setFixtures('<div id=\'todos\'></div>');
   });
 
+  it("Displays a to do item", function() {
+    let presenter = new ListPresenter.ListPresenter();
+    presenter.paint(new ToDo.ToDo("Mow the lawn"));
+
+    expect(global.document.getElementById('foo').innerHTML).toEqual("Mow the lawn");
+  });
+
+  it("Displays delete button button", function() {
+    let presenter = new ListPresenter.ListPresenter();
+    presenter.paint(new ToDo.ToDo("Paint the Shed"));
+
+    expect(global.document.getElementById('bar').innerHTML).toBe("Delete");
+  });
 });

@@ -4,25 +4,21 @@ describe("Task List Create Button", function() {
   global.window = doc.defaultView;
   global.document = window.document;
 
-  global.$ = require('jquery');
   require('jasmine-jquery');
-  let TaskList = require("../js/TaskList");
   let CreateTaskList = require("../js/CreateTaskListClickHandler");
   let ListPresenter = require("../js/ListPresenter");
 
   beforeEach(function() {
-    setFixtures('<input id="taskListBox">Garden</input><button id="taskListButton"></button><p id="todos">oldContent</p>');
+    setFixtures('<textarea id="taskListBox">Wash the floor</textarea><button id="taskListButton"></button>');
   });
 
-  it("creates a new task list", function() {
+  it("Displays the To Do item entered", function() {
     let listPresenter = new ListPresenter.ListPresenter();
-    spyOn(listPresenter, "paint").and.returnValue("Updated");
+    spyOn(listPresenter, "paint");
 
-    let clickHandler = new CreateTaskList.CreateTaskListClickHandler(listPresenter);
+    new CreateTaskList.CreateTaskListClickHandler(listPresenter);
+    global.document.getElementById('taskListButton').click();
 
-    global.$('#taskListButton').click();
-
-    expect(global.document.getElementById('todos').innerHTML).toEqual("oldContentUpdated");
     expect(listPresenter.paint).toHaveBeenCalled();
   });
 });
