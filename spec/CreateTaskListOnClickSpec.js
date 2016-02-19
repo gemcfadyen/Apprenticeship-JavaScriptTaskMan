@@ -8,7 +8,6 @@ describe("Task List Create Button", function() {
   let CreateTaskList = require("../js/CreateTaskListClickHandler");
   let ListPresenter = require("../js/ListPresenter");
   let IdGenerator = require("../js/IdGenerator");
-  let FakeFountain = require("./FakeFountain");
 
   beforeEach(function() {
     setFixtures('<textarea id="taskListBox">Wash the floor</textarea><button id="taskListButton"></button>');
@@ -18,7 +17,7 @@ describe("Task List Create Button", function() {
     let listPresenter = new ListPresenter.ListPresenter();
     spyOn(listPresenter, "paint");
 
-    new CreateTaskList.CreateTaskListClickHandler(listPresenter, new IdGenerator.IdGenerator(1, 3, new FakeFountain.FakeFountain(1)));
+    new CreateTaskList.CreateTaskListClickHandler(listPresenter, new IdGenerator.IdGenerator());
     global.document.getElementById('taskListButton').click();
 
     expect(listPresenter.paint).toHaveBeenCalled();

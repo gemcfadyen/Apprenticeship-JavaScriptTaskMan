@@ -58,15 +58,11 @@
 	
 	var IdGenerator = _interopRequireWildcard(_IdGenerator);
 	
-	var _Fountain = __webpack_require__(7);
-	
-	var Fountain = _interopRequireWildcard(_Fountain);
-	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	$(document).ready(function () {
 	  console.log("ready!");
-	  new CreateHandlers.CreateTaskListClickHandler(new ListPresenter.ListPresenter(), new IdGenerator.IdGenerator(1, 100, new Fountain.Fountain()));
+	  new CreateHandlers.CreateTaskListClickHandler(new ListPresenter.ListPresenter(), new IdGenerator.IdGenerator());
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -1788,43 +1784,72 @@
 	  }
 	
 	  _createClass(ListPresenter, [{
+	    key: 'rootTag',
+	    value: function rootTag() {
+	      return {
+	        tagName: 'todos'
+	      };
+	    }
+	  }, {
+	    key: 'todoTag',
+	    value: function todoTag() {
+	      return {
+	        tagName: 'p',
+	        id: 'id'
+	      };
+	    }
+	  }, {
+	    key: 'deleteButton',
+	    value: function deleteButton() {
+	      return {
+	        tagName: 'button',
+	        text: 'Delete',
+	        id: 'id'
+	      };
+	    }
+	  }, {
 	    key: 'paint',
 	    value: function paint(todo) {
 	      var _this = this;
 	
-	      var todoElement = document.createElement('p');
-	      todoElement.setAttribute('id', todo.uniqueId + ".0");
+	      var todoElement = document.createElement(this.todoTag().tagName);
+	      todoElement.setAttribute(this.todoTag().id, this._todoTagId(todo.uniqueId));
 	      var contentsOftodoElement = document.createTextNode(todo.description);
 	      todoElement.appendChild(contentsOftodoElement);
 	
-	      var deleteButtonElement = document.createElement('button');
-	      console.log("DELETE Button id: " + todo.uniqueId + ".1");
+	      var deleteButtonElement = document.createElement(this.deleteButton().tagName);
+	      console.log("DELETE Button id: " + todo.uniqueId);
+	      deleteButtonElement.setAttribute(this.deleteButton().id, this._deleteButtonTagId(todo.uniqueId));
 	      deleteButtonElement.addEventListener("click", function (e) {
 	        _this.remove(todo.uniqueId);e.preventDefault();
 	      });
-	      deleteButtonElement.setAttribute('id', todo.uniqueId + ".1");
 	
-	      var contentsOfdeleteButtonElement = document.createTextNode('Delete');
+	      var contentsOfdeleteButtonElement = document.createTextNode(this.deleteButton().text);
 	      deleteButtonElement.appendChild(contentsOfdeleteButtonElement);
 	
-	      document.getElementById('todos').appendChild(todoElement);
-	      document.getElementById('todos').appendChild(deleteButtonElement);
+	      document.getElementById(this.rootTag().tagName).appendChild(todoElement);
+	      document.getElementById(this.rootTag().tagName).appendChild(deleteButtonElement);
 	    }
 	  }, {
 	    key: 'remove',
 	    value: function remove(id) {
 	      console.log("the remove id is: " + id);
-	      console.log("Removed!");
 	
-	      var taskToRemove = document.getElementById(id + ".0");
-	      var buttonToRemove = document.getElementById(id + ".1");
-	
-	      //console.log("task to remove is" + taskToRemove.value);
-	      //console.log("task to remove is" + buttonToRemove.value);
-	      //
-	      var root = document.getElementById('todos');
+	      var root = document.getElementById(this.rootTag().tagName);
+	      var taskToRemove = document.getElementById(this._todoTagId(id));
+	      var buttonToRemove = document.getElementById(this._deleteButtonTagId(id));
 	      root.removeChild(taskToRemove);
 	      root.removeChild(buttonToRemove);
+	    }
+	  }, {
+	    key: '_todoTagId',
+	    value: function _todoTagId(id) {
+	      return id + ".0";
+	    }
+	  }, {
+	    key: '_deleteButtonTagId',
+	    value: function _deleteButtonTagId(id) {
+	      return id + ".1";
 	    }
 	  }]);
 	
@@ -1846,51 +1871,21 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var IdGenerator = exports.IdGenerator = function () {
-	  function IdGenerator(min, max, fountain) {
+	  function IdGenerator() {
 	    _classCallCheck(this, IdGenerator);
 	
-	    this.minimum = min;
-	    this.maximum = max;
-	    this.fountain = fountain;
+	    this.counter = 0;
 	  }
 	
 	  _createClass(IdGenerator, [{
 	    key: "generate",
 	    value: function generate() {
-	      return this.fountain.generate() * (this.maximum - this.minimum) + this.minimum;
+	      this.counter = this.counter + 1;
+	      return this.counter;
 	    }
 	  }]);
 	
 	  return IdGenerator;
-	}();
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Fountain = exports.Fountain = function () {
-	  function Fountain() {
-	    _classCallCheck(this, Fountain);
-	  }
-	
-	  _createClass(Fountain, [{
-	    key: "generate",
-	    value: function generate() {
-	      return Math.random();
-	    }
-	  }]);
-	
-	  return Fountain;
 	}();
 
 /***/ }

@@ -1,14 +1,22 @@
 import * as IdGenerator from "../js/IdGenerator";
-import * as FakeFountain from "./FakeFountain";
 
 describe("IdGenerator", function() {
 
-  it("generates an id between a range", function(){
-    let idGenerator = new IdGenerator.IdGenerator(1, 3, new FakeFountain.FakeFountain(2));
+  it("generates a number", function(){
+    let idGenerator = new IdGenerator.IdGenerator();
 
     let uniqueId = idGenerator.generate();
 
-    expect(uniqueId).toEqual(5);
+    expect(uniqueId).toEqual(1);
+  });
+
+  it("increments", function() {
+
+    let idGenerator = new IdGenerator.IdGenerator();
+    idGenerator.generate();
+    let uniqueId = idGenerator.generate();
+
+    expect(uniqueId).toEqual(2);
   });
 
 });
