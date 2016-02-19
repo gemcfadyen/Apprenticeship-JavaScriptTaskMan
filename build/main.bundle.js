@@ -1791,15 +1791,17 @@
 	    key: 'paint',
 	    value: function paint(todo) {
 	      var todoElement = document.createElement('p');
-	      todoElement.setAttribute('id', 'foo');
+	      todoElement.setAttribute('id', todo.uniqueId + ".0");
 	      var contentsOftodoElement = document.createTextNode(todo.description);
 	      todoElement.appendChild(contentsOftodoElement);
 	
 	      var deleteButtonElement = document.createElement('button');
-	      deleteButtonElement.setAttribute('id', 'bar');
+	      console.log("the id of the todo is: " + todoElement.getAttribute("id"));
+	
+	      deleteButtonElement.setAttribute('id', todo.uniqueId + ".1");
 	      var contentsOfdeleteButtonElement = document.createTextNode('Delete');
 	      deleteButtonElement.appendChild(contentsOfdeleteButtonElement);
-	      console.log("Unique id of to do: " + todo.uniqueId);
+	
 	      document.getElementById('todos').appendChild(todoElement);
 	      document.getElementById('todos').appendChild(deleteButtonElement);
 	    }
